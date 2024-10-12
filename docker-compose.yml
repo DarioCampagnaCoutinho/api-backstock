@@ -1,6 +1,7 @@
 services:
     # image project
     svc-stk-php:
+        container_name: svc-stk-php
         build:
             context: .
             dockerfile: Dockerfile
@@ -15,6 +16,7 @@ services:
 
     # nginx
     svc-stk-nginx:
+        container_name: svc-stk-nginx
         image: nginx:alpine
         restart: unless-stopped
         ports:
@@ -27,6 +29,7 @@ services:
 
     # db mysql
     svc-stk-mysql:
+        container_name: svc-stk-mysql
         image: mysql:8.0
         platform: linux/x86_64
         restart: unless-stopped
@@ -44,13 +47,14 @@ services:
 
     # PHPMyAdmin
     svc-stk-phpmyadmin:
+        container_name: svc-stk-phpmyadmin
         image: phpmyadmin/phpmyadmin
         platform: linux/x86_64
         restart: unless-stopped
         ports:
             - "8080:80"
         environment:
-            PMA_HOST: mysql
+            PMA_HOST: svc-stk-mysql
             PMA_PORT: 3306
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
         networks:
@@ -58,6 +62,7 @@ services:
 
     # redis
     svc-stk-redis:
+        container_name: svc-stk-redis
         image: redis:latest
         ports:
             - 6381:6379

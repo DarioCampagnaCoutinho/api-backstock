@@ -6,6 +6,10 @@ DC=docker compose --file docker-compose.yml --env-file .env
 up:
 	$(DC) up -d --build
 
+restart:
+	$(DC) down
+	$(DC) up -d --build
+
 setup:
 	$(DC) up -d --build
 	@echo "Aguardando o MySQL ficar ativo..."
@@ -33,6 +37,7 @@ clear:
 	$(DC) down
 	docker system prune --all -f
 	@if [ -n "$$(docker volume ls -q)" ]; then docker volume rm $$(docker volume ls -q); fi
+	sudo rm -R .docker/
 
 help: # mostra essa ajuda
 	@echo "----------------------- HELP ----------------------------"
