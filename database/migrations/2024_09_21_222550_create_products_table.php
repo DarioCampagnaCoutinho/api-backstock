@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('stock')->default(1);
+            $table->enum('unit_of_measure', ['mg', 'g', 'kg', 'tonelada', 'ml', 'l', 'kl']);
             $table->decimal('price', 10, 2);
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('supplier_id');

@@ -6,10 +6,6 @@ DC=docker compose --file docker-compose.yml --env-file .env
 up:
 	$(DC) up -d --build
 
-restart:
-	$(DC) down
-	$(DC) up -d --build
-
 setup:
 	$(DC) up -d --build
 	@echo "Aguardando o MySQL ficar ativo..."

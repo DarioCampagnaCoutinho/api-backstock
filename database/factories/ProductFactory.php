@@ -22,6 +22,7 @@ class ProductFactory extends Factory
             'name'=>$this->faker->word,
             'description'=>$this->faker->sentence,
             'stock'=>$this->faker->numberBetween(1, 100),
+            'unit_of_measure'=>$this->faker->randomElement(['mg', 'g', 'kg', 'tonelada', 'ml', 'l', 'kl']),
             'price'=>$this->faker->randomFloat(2, 10, 1000),
             'category_id'=>Category::factory(),
             'supplier_id'=>Supplier::factory(),

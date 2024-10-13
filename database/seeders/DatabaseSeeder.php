@@ -21,10 +21,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // Chamar o seeder de categorias
         $this->call(CategorySeeder::class);
 
-        // Chamar o seeder de fornecedores
         $this->call(SupplierSeeder::class);
 
         $this->call(ProductSeeder::class);

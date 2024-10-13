@@ -26,6 +26,7 @@ Route::delete('/suppliers/{id}', [SupplierController::class, 'delete']);
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::get('products-total', [ProductController::class, 'totalProducts']);
 Route::post('/products', [ProductController::class, 'store']);
 Route::put('/products/{id}', [ProductController::class, 'update']);
 
