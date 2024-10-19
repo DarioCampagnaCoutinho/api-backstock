@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StockMovementController extends Controller
 {
@@ -20,19 +21,23 @@ class StockMovementController extends Controller
         ];
         $validated = $request->validate($rules, $messages);
 
-        $product = Product::findOrFail($id);
+        DB::transaction(function () use ($id, $validated){
 
-        $product->increment('stock', $validated['quantity']);
+            $product = Product::lockForUpdate()->findOrFail($id);
 
-        $product->stockMovement()->create([
-            'quantity'=> $validated['quantity'],
-            'type'=>'in'
-        ]);
+            $product->increment('stock', $validated['quantity']);
+
+            $product->stockMovement()->create([
+                'quantity'=> $validated['quantity'],
+                'type'=>'in'
+            ]);
+        
+        });
 
         return response()->json([
             'status'=> true,
             'messages' => 'Estoque atualizado com sucesso!',
-            'product' => $product
+            'product' => Product::findOrFail($id)
         ]);
     }
 
@@ -50,19 +55,23 @@ class StockMovementController extends Controller
 
         $validated = $request->validate($rules, $messages);
 
-        $product = Product::findOrFail($id);
+        DB::transaction(function () use ($id, $validated){
 
-        $product->decrement('stock', $validated['quantity']);
+            $product = Product::lockForUpdate()->findOrFail($id);
 
-        $product->stockMovement()->create([
-            'quantity'=> $validated['quantity'],
-            'type'=> 'out'
-        ]);
+            $product->decrement('stock', $validated['quantity']);
+
+            $product->stockMovement()->create([
+                'quantity'=> $validated['quantity'],
+                'type'=> 'out'
+            ]);
+
+        });
 
         return response()->json([
             'status'=> true,
             'messages'=> 'Estoque atualizado com sucesso!',
-            'product' => $product
+            'product' => Product::findOrFail($id)
         ]);
     }
 }
